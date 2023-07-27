@@ -6,7 +6,7 @@ function Loader() {
       <MutatingDots
         height="100"
         width="100"
-        color="#4334ca"
+        color="#3f89b5"
         secondaryColor="#676776"
         radius="12.5"
         ariaLabel="mutating-dots-loading"

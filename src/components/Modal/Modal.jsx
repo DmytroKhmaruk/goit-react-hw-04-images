@@ -1,46 +1,35 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import StyledModal from './StyledModal';
 import StyledModalOverlay from './StyledModalOverlay';
 import 'lazysizes';
 import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 import PropTypes from 'prop-types';
 
-class Modal extends Component {
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyClosed);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyClosed);
-  }
-
-  handleKeyClosed = event => {
-    if (event.code === 'Escape') {
-      this.props.toggleModal();
-    }
+function Modal({ toggleModal, dataImg }) {
+  const handleClickOverlay = event => {
+    if (event.target === event.currentTarget) toggleModal();
   };
 
-  handleClickOverlay = event => {
-    if (event.target === event.currentTarget) {
-      this.props.toggleModal();
-    }
-  };
+  useEffect(() => {
+    const handleKeyClosed = event => {
+      if (event.code === 'Escape') toggleModal();
+    };
+  document.addEventListener('keydown', handleKeyClosed);
+  return () => document.removeEventListener('keydown', handleKeyClosed);
+  }, [toggleModal]);
 
-  render() {
-    const { tags, urlLargeImage } = this.props.dataModalImg;
     return (
-      <StyledModalOverlay onClick={this.handleClickOverlay}>
+      <StyledModalOverlay onClick={handleClickOverlay}>
         <StyledModal>
           <img
-            data-src={urlLargeImage}
-            alt={tags}
+            data-src={dataImg.urlLargeImage}
+            alt={dataImg.tags}
             className="lazyload blur-up"
           />
         </StyledModal>
       </StyledModalOverlay>
     );
   }
-}
 
 export default Modal;
 

@@ -1,24 +1,23 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import StyledSearchBar from './StyledSearchBar';
 import { FcSearch } from 'react-icons/fc';
 import PropTypes from 'prop-types';
 
-class SearchBar extends Component {
-  state = { searchNameImg: '' };
+function SearchBar({ handleSubmit }) {
+  const [searchNameImg, setSearchNameImg] = useState('');
 
-  onSearchSubmit = event => {
+  const onSearchSubmit = event => {
     event.preventDefault();
-    this.props.handleSubmit(this.state.searchNameImg);
+    handleSubmit(searchNameImg);
   };
 
-  onInputChange = event => {
-    this.setState({ searchNameImg: event.target.value });
+  const onInputChange = event => {
+    setSearchNameImg(prevState => (prevState = event.target.value));
   };
 
-  render() {
     return (
       <StyledSearchBar className="searchbar">
-        <form className="form" onSubmit={this.onSearchSubmit}>
+        <form className="form" onSubmit={onSearchSubmit}>
           <button type="submit" className="button">
             <FcSearch className="icon" />
             <span className="button-label">Search</span>
@@ -30,13 +29,12 @@ class SearchBar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            onChange={this.onInputChange}
+            onChange={onInputChange}
           />
         </form>
       </StyledSearchBar>
     );
   }
-}
 
 export default SearchBar;
 
